@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  appdb:
+    image: postgres:11-alpine
+    container_name: appdb
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: mtadmin
+      POSTGRES_PASSWORD: mtadmin
+      POSTGRES_DB: muscletracking
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  api:
+    build: ./
+    container_name: api
+    ports:
+      - "8080:8080"
+    environment:
+      spring.datasource.url: "jdbc:postgresql://appdb:5432/muscletracking"
+    depends_on:
+      - appdb
+volumes:
+  db_data: {}
