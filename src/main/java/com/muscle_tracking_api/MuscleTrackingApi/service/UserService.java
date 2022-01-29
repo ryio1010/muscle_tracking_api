@@ -16,4 +16,12 @@ public class UserService {
     public List<User> getUserAll() {
         return userDao.selectAll();
     }
+
+    public User getUserByUserName(String userName) {
+        return userDao.selectUserByUserName(userName);
+    }
+
+    public int insert(User user) {
+        return userDao.insert(user);
+    }
 }

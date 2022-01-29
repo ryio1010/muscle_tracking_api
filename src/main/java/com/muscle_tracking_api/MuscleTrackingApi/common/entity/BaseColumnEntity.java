@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
+import org.seasar.doma.Version;
+
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -14,14 +17,15 @@ public class BaseColumnEntity {
     public String regid;
 
     @Column(name = "regdate")
-    public String regdate;
+    public Timestamp regdate;
 
     @Column(name = "updid")
     public String updid;
 
     @Column(name = "upddate")
-    public String upddate;
+    public Timestamp upddate;
 
+    @Version
     @Column(name = "version")
-    public String version;
+    public Integer version;
 }

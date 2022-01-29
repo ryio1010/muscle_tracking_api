@@ -3,19 +3,19 @@ package com.muscle_tracking_api.MuscleTrackingApi.entity;
 import com.muscle_tracking_api.MuscleTrackingApi.common.entity.BaseColumnEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.seasar.doma.Column;
-import org.seasar.doma.Entity;
-import org.seasar.doma.Id;
-import org.seasar.doma.Table;
+import org.seasar.doma.*;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "m_user")
 public class User extends BaseColumnEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(sequence = "m_user_uid_seq")
     @Column(name = "uid")
-    public String uid;
+    public Integer uid;
 
     @Column(name = "uname")
     public String userNane;
