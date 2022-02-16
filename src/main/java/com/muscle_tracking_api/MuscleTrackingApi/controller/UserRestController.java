@@ -7,53 +7,54 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserRestController {
 
     @Autowired
     UserService userService;
 
-    @GetMapping("/login/{userName}/{password}")
-    ResponseEntity<String> login(@PathVariable("userName") String userName, @PathVariable("password") String password) {
-        // userNameからレコードを取得
-        User user = userService.getUserByUserName(userName);
+    /**
+     * ユーザーログインAPI
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping("/login")
+    @ResponseBody
+    ResponseEntity<User> login(@RequestBody User user) {
+        // userIdからレコードを取得
+        User userInfo = userService.getUserById(user.uid);
 
-        if (user != null) {
-            if (user.password.equals(password)) {
-                return new ResponseEntity<>("you can Login!!", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>("you are not able to login...", HttpStatus.NOT_ACCEPTABLE);
-            }
-        } else {
-            return new ResponseEntity<>("no user FOUND!!", HttpStatus.NOT_ACCEPTABLE);
+        // ユーザー存在チェック
+        if (userInfo == null) {
+            return new ResponseEntity<>(user, HttpStatus.NO_CONTENT);
         }
+
+        // 認証チェック
+        if (!user.uid.equals(userInfo.uid) || !user.password.equals(userInfo.password)) {
+            return new ResponseEntity<>(user, HttpStatus.FORBIDDEN);
+        }
+
+        return new ResponseEntity<>(userInfo, HttpStatus.OK);
     }
 
-    @GetMapping("/register/{userName}")
-    ResponseEntity<String> registerUser(@PathVariable("userName") String userName) {
-
-        // userName重複チェック
-        User user = userService.getUserByUserName(userName);
-        if (user == null) {
-            // DB登録
-            User newUser = new User();
-            Timestamp date = new Timestamp(new Date().getTime());
-            newUser.userNane = userName;
-            newUser.password = userName;
-            newUser.regid = userName;
-            newUser.regdate = date;
-            newUser.updid = userName;
-            newUser.upddate = date;
-            int result = userService.insert(newUser);
-            return new ResponseEntity<>("REGISTERD!!", HttpStatus.OK);
+    /**
+     * ユーザー新規登録API
+     *
+     * @param user
+     * @return
+     */
+    @PostMapping("/register")
+    ResponseEntity<Boolean> register(@RequestBody User user) {
+        // ユーザーID重複チェック
+        User userinfo = userService.getUserById(user.uid);
+        if (userinfo == null) {
+            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
         }
-        return new ResponseEntity<>("NOT REGISTERD!!", HttpStatus.OK);
+        // 新規ユーザー登録
+        userService.insert(user);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @GetMapping("/error")

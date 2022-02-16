@@ -17,8 +17,8 @@ public class UserService {
         return userDao.selectAll();
     }
 
-    public User getUserByUserName(String userName) {
-        return userDao.selectUserByUserName(userName);
+    public User getUserById(String userId) {
+        return userDao.selectUserByUserName(userId);
     }
 
     public int insert(User user) {

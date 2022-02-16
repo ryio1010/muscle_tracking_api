@@ -12,10 +12,8 @@ import org.seasar.doma.*;
 public class User extends BaseColumnEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequence = "m_user_uid_seq")
     @Column(name = "uid")
-    public Integer uid;
+    public String uid;
 
     @Column(name = "uname")
     public String userNane;
