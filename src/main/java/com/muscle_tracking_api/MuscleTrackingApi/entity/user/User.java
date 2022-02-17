@@ -1,4 +1,4 @@
-package com.muscle_tracking_api.MuscleTrackingApi.entity;
+package com.muscle_tracking_api.MuscleTrackingApi.entity.user;
 
 import com.muscle_tracking_api.MuscleTrackingApi.common.entity.BaseColumnEntity;
 import lombok.Getter;

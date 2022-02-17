@@ -1,7 +1,7 @@
 package com.muscle_tracking_api.MuscleTrackingApi.dao;
 
 
-import com.muscle_tracking_api.MuscleTrackingApi.entity.User;
+import com.muscle_tracking_api.MuscleTrackingApi.entity.user.User;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
