@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserRestController {
@@ -20,9 +22,9 @@ public class UserRestController {
      * @param userLoginForm
      * @return
      */
-    @PostMapping("/login")
+    @PostMapping(value = "/login")
     @ResponseBody
-    ResponseEntity<UserLoginResponse> login(@RequestBody UserLoginForm userLoginForm) {
+    ResponseEntity<UserLoginResponse> login(@ModelAttribute UserLoginForm userLoginForm) {
         // userIdからレコードを取得
         User userInfo = userService.getUserById(userLoginForm.userid);
 
@@ -41,6 +43,14 @@ public class UserRestController {
         userLoginResponse.userid = userInfo.uid;
         userLoginResponse.username = userInfo.userNane;
         userLoginResponse.password = userInfo.password;
+        if (userInfo.height == null) {
+            userInfo.height = Double.valueOf(0);
+        }
+        if (userInfo.weight == null) {
+            userInfo.weight = Double.valueOf(0);
+        }
+        userLoginResponse.height = userInfo.height;
+        userLoginResponse.weight = userInfo.weight;
 
         return new ResponseEntity<>(userLoginResponse, HttpStatus.OK);
     }
@@ -52,24 +62,28 @@ public class UserRestController {
      * @return
      */
     @PostMapping("/register")
-    ResponseEntity<UserRegisterResponse> register(@RequestBody UserRegisterForm userRegisterForm) {
+    ResponseEntity<Boolean> register(@ModelAttribute UserRegisterForm userRegisterForm) {
         // ユーザーID重複チェック
         User userinfo = userService.getUserById(userRegisterForm.userid);
         if (userinfo != null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
         }
         // 新規ユーザー登録
         User registerUserInfo = new User();
         registerUserInfo.uid = userRegisterForm.userid;
         registerUserInfo.userNane = userRegisterForm.username;
         registerUserInfo.password = userRegisterForm.password;
+        registerUserInfo.regid = userRegisterForm.userid;
+        registerUserInfo.regdate = new Timestamp(System.currentTimeMillis());
+        registerUserInfo.updid = userRegisterForm.userid;
+        registerUserInfo.upddate = new Timestamp(System.currentTimeMillis());
+        registerUserInfo.version = 1;
 
+
+        // DB登録
         userService.insert(registerUserInfo);
 
-        UserRegisterResponse userRegisterResponse = new UserRegisterResponse();
-        userRegisterResponse.userid = registerUserInfo.uid;
-        userRegisterResponse.username = registerUserInfo.userNane;
-        return new ResponseEntity<>(userRegisterResponse, HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     @GetMapping("/error")

@@ -16,7 +16,7 @@ public interface UserDao {
     List<User> selectAll();
 
     @Select
-    User selectUserByUserName(String userName);
+    User selectUserById(String userId);
 
     @Insert
     int insert(User user);

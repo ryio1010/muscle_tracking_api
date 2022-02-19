@@ -18,7 +18,7 @@ public class UserService {
     }
 
     public User getUserById(String userId) {
-        return userDao.selectUserByUserName(userId);
+        return userDao.selectUserById(userId);
     }
 
     public int insert(User user) {
