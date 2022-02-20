@@ -43,6 +43,12 @@ public class UserRestController {
         userLoginResponse.userid = userInfo.uid;
         userLoginResponse.username = userInfo.userNane;
         userLoginResponse.password = userInfo.password;
+        if (userInfo.height == null && userInfo.weight == null) {
+            userLoginResponse.isFirstLogin = true;
+        }else {
+            userLoginResponse.isFirstLogin = false;
+        }
+
         if (userInfo.height == null) {
             userInfo.height = Double.valueOf(0);
         }
@@ -85,6 +91,40 @@ public class UserRestController {
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
+
+    /**
+     * ユーザー情報更新API
+     * @param userUpdateForm
+     * @return
+     */
+    @PutMapping
+    ResponseEntity<UserUpdateResponse> update(@ModelAttribute UserUpdateForm userUpdateForm) {
+        // useridで検索
+        User userInfo = userService.getUserById(userUpdateForm.userid);
+
+        // m_user更新処理
+        userInfo.uid = userUpdateForm.userid;
+        userInfo.userNane = userUpdateForm.username;
+        userInfo.password = userUpdateForm.password;
+        userInfo.height = userUpdateForm.height;
+        userInfo.weight = userUpdateForm.weight;
+        userInfo.updid = userUpdateForm.userid;
+        userInfo.upddate = new Timestamp(System.currentTimeMillis());
+
+        // DB登録
+        userService.update(userInfo);
+
+        // update情報セット
+        UserUpdateResponse userUpdateResponse = new UserUpdateResponse();
+        userUpdateResponse.userid = userUpdateForm.userid;
+        userUpdateResponse.username = userUpdateForm.username;
+        userUpdateResponse.password = userUpdateForm.password;
+        userUpdateResponse.height = userUpdateForm.height;
+        userUpdateResponse.weight = userUpdateForm.weight;
+
+        return new ResponseEntity<>(userUpdateResponse,HttpStatus.OK);
+    }
+
 
     @GetMapping("/error")
     public String error() {

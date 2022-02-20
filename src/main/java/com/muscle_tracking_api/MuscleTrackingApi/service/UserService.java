@@ -13,15 +13,30 @@ public class UserService {
     @Autowired
     UserDao userDao;
 
-    public List<User> getUserAll() {
-        return userDao.selectAll();
-    }
-
+    /**
+     * m_userテーブルからuidで１件検索
+     * @param userId
+     * @return
+     */
     public User getUserById(String userId) {
         return userDao.selectUserById(userId);
     }
 
+    /**
+     * m_userテーブルInsert
+     * @param user
+     * @return
+     */
     public int insert(User user) {
         return userDao.insert(user);
+    }
+
+    /**
+     * m_userテーブルUpdate
+     * @param user
+     * @return
+     */
+    public int update(User user) {
+        return userDao.update(user);
     }
 }

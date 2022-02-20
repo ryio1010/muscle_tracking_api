@@ -5,12 +5,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserLoginResponse {
+public class UserUpdateForm {
 
     public String userid;
+
     public String username;
+
     public String password;
+
     public Double height;
+
     public Double weight;
-    public Boolean isFirstLogin;
 }
