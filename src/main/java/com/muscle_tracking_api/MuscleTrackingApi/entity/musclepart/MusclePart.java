@@ -1,9 +1,11 @@
-package com.muscle_tracking_api.MuscleTrackingApi.entity;
+package com.muscle_tracking_api.MuscleTrackingApi.entity.musclepart;
 
 import com.muscle_tracking_api.MuscleTrackingApi.common.entity.BaseColumnEntity;
 import lombok.Getter;
 import lombok.Setter;
-import org.seasar.doma.*;
+import org.seasar.doma.Column;
+import org.seasar.doma.Entity;
+import org.seasar.doma.Table;
 
 @Entity
 @Getter
@@ -11,12 +13,9 @@ import org.seasar.doma.*;
 @Table(name = "m_musclepart")
 public class MusclePart extends BaseColumnEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequence = "m_musclepart_musclepartid_seq")
     @Column(name = "musclepartid")
-    public Integer musclepartId;
+    public String musclePartId;
 
     @Column(name = "musclepartname")
-    public String musclepartName;
+    public String musclePartName;
 }

@@ -1,7 +1,7 @@
-package com.muscle_tracking_api.MuscleTrackingApi.controller;
+package com.muscle_tracking_api.MuscleTrackingApi.controller.user;
 
 import com.muscle_tracking_api.MuscleTrackingApi.entity.user.*;
-import com.muscle_tracking_api.MuscleTrackingApi.service.UserService;
+import com.muscle_tracking_api.MuscleTrackingApi.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

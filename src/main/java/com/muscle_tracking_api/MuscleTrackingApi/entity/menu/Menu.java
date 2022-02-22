@@ -1,4 +1,4 @@
-package com.muscle_tracking_api.MuscleTrackingApi.entity;
+package com.muscle_tracking_api.MuscleTrackingApi.entity.menu;
 
 import com.muscle_tracking_api.MuscleTrackingApi.common.entity.BaseColumnEntity;
 import lombok.Getter;
@@ -20,5 +20,5 @@ public class Menu extends BaseColumnEntity {
     public String menuName;
 
     @Column(name = "musclepartid")
-    public Integer musclepartId;
+    public String musclepartId;
 }

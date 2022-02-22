@@ -1,4 +1,4 @@
-package com.muscle_tracking_api.MuscleTrackingApi.dao;
+package com.muscle_tracking_api.MuscleTrackingApi.dao.user;
 
 
 import com.muscle_tracking_api.MuscleTrackingApi.entity.user.User;
@@ -13,8 +13,6 @@ import java.util.List;
 @ConfigAutowireable
 @Dao
 public interface UserDao {
-    @Select
-    List<User> selectAll();
 
     @Select
     User selectUserById(String userId);

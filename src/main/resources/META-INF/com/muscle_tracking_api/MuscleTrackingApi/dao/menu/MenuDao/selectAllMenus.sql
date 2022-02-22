@@ -1,5 +1,5 @@
 select
     *
 from
-    m_user
+    m_menu m
 ;
