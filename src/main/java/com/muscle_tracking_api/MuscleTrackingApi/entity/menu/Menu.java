@@ -20,5 +20,8 @@ public class Menu extends BaseColumnEntity {
     public String menuName;
 
     @Column(name = "musclepartid")
-    public String musclepartId;
+    public String musclePartId;
+
+    @Column(name = "musclepartname")
+    public String musclePartName;
 }
