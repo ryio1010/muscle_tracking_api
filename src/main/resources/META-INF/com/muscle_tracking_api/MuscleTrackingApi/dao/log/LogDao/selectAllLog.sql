@@ -1,5 +1,6 @@
 select
     t.id,
+    t.menuid,
     m.menuname,
     t.trainingweight,
     t.trainingcount,

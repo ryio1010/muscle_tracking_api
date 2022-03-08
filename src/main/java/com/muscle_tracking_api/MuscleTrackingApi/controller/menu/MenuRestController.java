@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,13 +22,28 @@ public class MenuRestController {
 
     @PostMapping("/add")
     @ResponseBody
-    ResponseEntity<Boolean> addMenu(@ModelAttribute MenuRegisterForm menuRegisterForm) {
+    ResponseEntity<List<MenuResponse>> addMenu(@ModelAttribute MenuRegisterForm menuRegisterForm) {
         // menu登録処理
         Menu registerMenu = new Menu();
-        registerMenu.menuName = menuRegisterForm.menuName;
-        registerMenu.musclePartId = menuRegisterForm.musclePartId;
+        registerMenu.menuName = menuRegisterForm.menuname;
+        registerMenu.musclePartId = menuRegisterForm.musclepartid;
+        registerMenu.userId = menuRegisterForm.userid;
+        registerMenu.regid = menuRegisterForm.userid;
+        registerMenu.regdate = new Timestamp(System.currentTimeMillis());
+        registerMenu.updid = menuRegisterForm.userid;
+        registerMenu.upddate = new Timestamp(System.currentTimeMillis());
+
         menuService.insertMenu(registerMenu);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+
+        List<Menu> allMenu = menuService.getMenuAll();
+        List<MenuResponse> menuResponses = new ArrayList<>();
+        for ( Menu menu:allMenu) {
+            MenuResponse response = new MenuResponse(menu.menuId,menu.menuName,menu.musclePartName);
+            menuResponses.add(response);
+        }
+
+
+        return new ResponseEntity<>(menuResponses, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
@@ -42,12 +58,4 @@ public class MenuRestController {
         }
         return new ResponseEntity<>(menuResponses,HttpStatus.OK);
     }
-
-//    @GetMapping("/{musclePart}")
-//    @ResponseBody
-//    ResponseEntity<List<Menu>> getMenuByMusclePart(@ModelAttribute String musclePart) {
-//        // 部位別メニュー取得処理
-//        List<Menu> menuOfMusclePart = menuService.getMenuByMusclePart(musclePart);
-//        return new ResponseEntity<>(menuOfMusclePart,HttpStatus.OK);
-//    }
 }

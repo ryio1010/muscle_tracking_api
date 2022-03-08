@@ -6,6 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MenuRegisterForm {
-    public String  menuName;
-    public String musclePartId;
+    public String menuname;
+    public String musclepartid;
+    public String userid;
 }
