@@ -57,4 +57,16 @@ public class LogRestController {
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 
+    @PostMapping("/add")
+    @ResponseBody
+    ResponseEntity<Boolean> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
+        // log登録処理
+        Log registerLog = new Log();
+        registerLog.menuId = logRegisterForm.menuId;
+        registerLog.trainingWeight = logRegisterForm.trainingWeight;
+        registerLog.trainingCount = logRegisterForm.trainingCount;
+        registerLog.trainingDate = logRegisterForm.trainingDate;
+        logService.insertLog(registerLog);
+        return new ResponseEntity<>(true,HttpStatus.OK);
+    }
 }
