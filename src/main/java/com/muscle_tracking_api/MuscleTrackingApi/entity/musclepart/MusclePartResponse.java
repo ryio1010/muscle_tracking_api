@@ -8,9 +8,4 @@ import lombok.Setter;
 public class MusclePartResponse {
     public String musclePartId;
     public String musclePartName;
-
-    public MusclePartResponse(String musclePartId, String musclePartName) {
-        this.musclePartId = musclePartId;
-        this.musclePartName = musclePartName;
-    }
 }

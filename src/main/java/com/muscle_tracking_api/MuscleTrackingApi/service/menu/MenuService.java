@@ -24,4 +24,12 @@ public class MenuService {
     public int insertMenu(Menu menu) {
         return menuDao.insert(menu);
     }
+
+    public int updateMenu(Menu menu) {
+        return menuDao.update(menu);
+    }
+
+    public int deleteMenu(Menu menu) {
+        return menuDao.delete(menu);
+    }
 }

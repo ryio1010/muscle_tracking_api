@@ -12,18 +12,12 @@ import org.seasar.doma.*;
 public class User extends BaseColumnEntity {
 
     @Id
-    @Column(name = "uid")
-    public String uid;
+    @Column(name = "userid")
+    public String userId;
 
-    @Column(name = "uname")
+    @Column(name = "username")
     public String userNane;
 
     @Column(name = "password")
     public String password;
-
-    @Column(name = "height")
-    public Double height;
-
-    @Column(name = "weight")
-    public Double weight;
 }

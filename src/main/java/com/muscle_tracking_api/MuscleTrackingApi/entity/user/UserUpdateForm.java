@@ -6,14 +6,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserUpdateForm {
-
-    public String userid;
-
-    public String username;
-
+    public String userId;
+    public String userName;
     public String password;
-
-    public Double height;
-
-    public Double weight;
 }

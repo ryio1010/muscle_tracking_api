@@ -6,10 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserUpdateResponse {
-
-    public String userid;
-    public String username;
-    public String password;
-    public Double height;
-    public Double weight;
+    public String userId;
+    public String userName;
 }

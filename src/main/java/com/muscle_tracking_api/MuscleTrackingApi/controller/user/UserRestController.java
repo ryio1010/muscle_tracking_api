@@ -26,7 +26,7 @@ public class UserRestController {
     @ResponseBody
     ResponseEntity<UserLoginResponse> login(@ModelAttribute UserLoginForm userLoginForm) {
         // userIdからレコードを取得
-        User userInfo = userService.getUserById(userLoginForm.userid);
+        User userInfo = userService.getUserById(userLoginForm.userId);
 
         // ユーザー存在チェック
         if (userInfo == null) {
@@ -34,14 +34,14 @@ public class UserRestController {
         }
 
         // 認証チェック
-        if (!userLoginForm.userid.equals(userInfo.uid) || !userLoginForm.password.equals(userInfo.password)) {
+        if (!userLoginForm.userId.equals(userInfo.userId) || !userLoginForm.password.equals(userInfo.password)) {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
 
         // ユーザー情報をセット
         UserLoginResponse userLoginResponse = new UserLoginResponse();
-        userLoginResponse.userid = userInfo.uid;
-        userLoginResponse.username = userInfo.userNane;
+        userLoginResponse.userId = userInfo.userId;
+        userLoginResponse.userName = userInfo.userNane;
         userLoginResponse.password = userInfo.password;
         if (userInfo.height == null && userInfo.weight == null) {
             userLoginResponse.isFirstLogin = true;
@@ -70,19 +70,19 @@ public class UserRestController {
     @PostMapping("/register")
     ResponseEntity<Boolean> register(@ModelAttribute UserRegisterForm userRegisterForm) {
         // ユーザーID重複チェック
-        User userinfo = userService.getUserById(userRegisterForm.userid);
+        User userinfo = userService.getUserById(userRegisterForm.userId);
         if (userinfo != null) {
             return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
         }
         // 新規ユーザー登録
         User registerUserInfo = new User();
-        registerUserInfo.uid = userRegisterForm.userid;
-        registerUserInfo.userNane = userRegisterForm.username;
+        registerUserInfo.userId = userRegisterForm.userId;
+        registerUserInfo.userNane = userRegisterForm.userName;
         registerUserInfo.password = userRegisterForm.password;
-        registerUserInfo.regid = userRegisterForm.userid;
-        registerUserInfo.regdate = new Timestamp(System.currentTimeMillis());
-        registerUserInfo.updid = userRegisterForm.userid;
-        registerUserInfo.upddate = new Timestamp(System.currentTimeMillis());
+        registerUserInfo.regId = userRegisterForm.userId;
+        registerUserInfo.regDate = new Timestamp(System.currentTimeMillis());
+        registerUserInfo.updId = userRegisterForm.userId;
+        registerUserInfo.updDate = new Timestamp(System.currentTimeMillis());
         registerUserInfo.version = 1;
 
 
@@ -100,24 +100,24 @@ public class UserRestController {
     @PutMapping
     ResponseEntity<UserUpdateResponse> update(@ModelAttribute UserUpdateForm userUpdateForm) {
         // useridで検索
-        User userInfo = userService.getUserById(userUpdateForm.userid);
+        User userInfo = userService.getUserById(userUpdateForm.userId);
 
         // m_user更新処理
-        userInfo.uid = userUpdateForm.userid;
-        userInfo.userNane = userUpdateForm.username;
+        userInfo.userId = userUpdateForm.userId;
+        userInfo.userNane = userUpdateForm.userName;
         userInfo.password = userUpdateForm.password;
         userInfo.height = userUpdateForm.height;
         userInfo.weight = userUpdateForm.weight;
-        userInfo.updid = userUpdateForm.userid;
-        userInfo.upddate = new Timestamp(System.currentTimeMillis());
+        userInfo.updId = userUpdateForm.userId;
+        userInfo.updDate = new Timestamp(System.currentTimeMillis());
 
         // DB登録
         userService.update(userInfo);
 
         // update情報セット
         UserUpdateResponse userUpdateResponse = new UserUpdateResponse();
-        userUpdateResponse.userid = userUpdateForm.userid;
-        userUpdateResponse.username = userUpdateForm.username;
+        userUpdateResponse.userId = userUpdateForm.userId;
+        userUpdateResponse.userName = userUpdateForm.userName;
         userUpdateResponse.password = userUpdateForm.password;
         userUpdateResponse.height = userUpdateForm.height;
         userUpdateResponse.weight = userUpdateForm.weight;

@@ -7,9 +7,8 @@ import lombok.Setter;
 @Setter
 public class LogRegisterForm {
     public String menuId;
-    public String menuName;
-    public String trainingWeight;
-    public String trainingCount;
+    public Double trainingWeight;
+    public Integer trainingCount;
     public String trainingDate;
     public String userId;
 }

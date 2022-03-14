@@ -16,4 +16,16 @@ public class MusclePartService {
     public List<MusclePart> getMusclePartAll() {
         return musclePartDao.selectAllMusclePart();
     }
+
+    public int insert(MusclePart musclePart) {
+        return musclePartDao.insert(musclePart);
+    }
+
+    public int update(MusclePart musclePart) {
+        return musclePartDao.update(musclePart);
+    }
+
+    public int delete(MusclePart musclePart) {
+        return musclePartDao.delete(musclePart);
+    }
 }

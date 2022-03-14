@@ -27,7 +27,7 @@ public class LogRestController {
         List<LogResponse> responses = new ArrayList<>();
         for (Log log: allLog) {
             LogResponse logResponse = new LogResponse();
-            logResponse.logId = log.id;
+            logResponse.logId = log.logId;
             logResponse.menuId = log.menuId;
             logResponse.menuName = log.menuName;
             logResponse.trainingWeight = Double.valueOf(log.trainingWeight);
@@ -48,25 +48,12 @@ public class LogRestController {
         addLog.trainingCount = Integer.valueOf(logRegisterForm.trainingCount);
         addLog.trainingDate = logRegisterForm.trainingDate;
         addLog.userId = logRegisterForm.userId;
-        addLog.regid = logRegisterForm.userId;
-        addLog.regdate = new Timestamp(System.currentTimeMillis());
-        addLog.updid = logRegisterForm.userId;
-        addLog.upddate = new Timestamp(System.currentTimeMillis());
+        addLog.regId = logRegisterForm.userId;
+        addLog.regDate = new Timestamp(System.currentTimeMillis());
+        addLog.updId = logRegisterForm.userId;
+        addLog.updDate = new Timestamp(System.currentTimeMillis());
         logService.insertLog(addLog);
 
-        return new ResponseEntity<>(true,HttpStatus.OK);
-    }
-
-    @PostMapping("/add")
-    @ResponseBody
-    ResponseEntity<Boolean> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
-        // log登録処理
-        Log registerLog = new Log();
-        registerLog.menuId = logRegisterForm.menuId;
-        registerLog.trainingWeight = logRegisterForm.trainingWeight;
-        registerLog.trainingCount = logRegisterForm.trainingCount;
-        registerLog.trainingDate = logRegisterForm.trainingDate;
-        logService.insertLog(registerLog);
         return new ResponseEntity<>(true,HttpStatus.OK);
     }
 }

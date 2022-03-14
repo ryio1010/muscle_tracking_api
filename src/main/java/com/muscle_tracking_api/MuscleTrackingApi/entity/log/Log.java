@@ -12,18 +12,18 @@ import org.seasar.doma.*;
 public class Log extends BaseColumnEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(sequence = "t_traininglog_id_seq")
-    @Column(name = "id")
-    public Integer id;
+    @SequenceGenerator(sequence = "t_traininglog_logid_seq")
+    @Column(name = "logid")
+    public Integer logId;
 
     @Column(name = "menuid")
     public Integer menuId;
 
-    @Column(name = "menuname",insertable = false)
-    public String menuName;
+//    @Column(name = "menuname",insertable = false)
+//    public String menuName;
 
     @Column(name = "trainingweight")
-    public Integer trainingWeight;
+    public Double trainingWeight;
 
     @Column(name = "trainingcount")
     public Integer trainingCount;
