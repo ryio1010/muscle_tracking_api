@@ -38,7 +38,10 @@ public class MenuRestController {
         List<Menu> allMenu = menuService.getMenuAll();
         List<MenuResponse> menuResponses = new ArrayList<>();
         for ( Menu menu:allMenu) {
-            MenuResponse response = new MenuResponse(menu.menuId,menu.menuName,menu.musclePartName);
+            MenuResponse response = new MenuResponse();
+            response.menuId = menu.menuId;
+            response.menuName = menu.menuName;
+            response.musclePart = menu.musclePartName;
             menuResponses.add(response);
         }
 
@@ -53,7 +56,10 @@ public class MenuRestController {
         List<Menu> allMenu = menuService.getMenuAll();
         List<MenuResponse> menuResponses = new ArrayList<>();
         for ( Menu menu:allMenu) {
-            MenuResponse response = new MenuResponse(menu.menuId,menu.menuName,menu.musclePartName);
+            MenuResponse response = new MenuResponse();
+            response.menuId = menu.menuId;
+            response.menuName = menu.menuName;
+            response.musclePart = menu.musclePartName;
             menuResponses.add(response);
         }
         return new ResponseEntity<>(menuResponses,HttpStatus.OK);

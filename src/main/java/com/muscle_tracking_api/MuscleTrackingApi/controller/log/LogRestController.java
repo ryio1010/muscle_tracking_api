@@ -43,8 +43,7 @@ public class LogRestController {
     ResponseEntity<Boolean> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
         Log addLog = new Log();
         addLog.menuId = Integer.valueOf(logRegisterForm.menuId);
-        addLog.menuName = logRegisterForm.menuName;
-        addLog.trainingWeight = Integer.valueOf(logRegisterForm.trainingWeight);
+        addLog.trainingWeight = logRegisterForm.trainingWeight;
         addLog.trainingCount = Integer.valueOf(logRegisterForm.trainingCount);
         addLog.trainingDate = logRegisterForm.trainingDate;
         addLog.userId = logRegisterForm.userId;

@@ -43,20 +43,6 @@ public class UserRestController {
         userLoginResponse.userId = userInfo.userId;
         userLoginResponse.userName = userInfo.userNane;
         userLoginResponse.password = userInfo.password;
-        if (userInfo.height == null && userInfo.weight == null) {
-            userLoginResponse.isFirstLogin = true;
-        }else {
-            userLoginResponse.isFirstLogin = false;
-        }
-
-        if (userInfo.height == null) {
-            userInfo.height = Double.valueOf(0);
-        }
-        if (userInfo.weight == null) {
-            userInfo.weight = Double.valueOf(0);
-        }
-        userLoginResponse.height = userInfo.height;
-        userLoginResponse.weight = userInfo.weight;
 
         return new ResponseEntity<>(userLoginResponse, HttpStatus.OK);
     }
@@ -106,8 +92,6 @@ public class UserRestController {
         userInfo.userId = userUpdateForm.userId;
         userInfo.userNane = userUpdateForm.userName;
         userInfo.password = userUpdateForm.password;
-        userInfo.height = userUpdateForm.height;
-        userInfo.weight = userUpdateForm.weight;
         userInfo.updId = userUpdateForm.userId;
         userInfo.updDate = new Timestamp(System.currentTimeMillis());
 
@@ -119,8 +103,6 @@ public class UserRestController {
         userUpdateResponse.userId = userUpdateForm.userId;
         userUpdateResponse.userName = userUpdateForm.userName;
         userUpdateResponse.password = userUpdateForm.password;
-        userUpdateResponse.height = userUpdateForm.height;
-        userUpdateResponse.weight = userUpdateForm.weight;
 
         return new ResponseEntity<>(userUpdateResponse,HttpStatus.OK);
     }

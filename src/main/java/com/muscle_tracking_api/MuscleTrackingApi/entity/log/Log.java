@@ -19,8 +19,8 @@ public class Log extends BaseColumnEntity {
     @Column(name = "menuid")
     public Integer menuId;
 
-//    @Column(name = "menuname",insertable = false)
-//    public String menuName;
+    @Column(name = "menuname",insertable = false)
+    public String menuName;
 
     @Column(name = "trainingweight")
     public Double trainingWeight;

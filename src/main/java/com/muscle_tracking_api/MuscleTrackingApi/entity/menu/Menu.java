@@ -23,8 +23,8 @@ public class Menu extends BaseColumnEntity {
     @Column(name = "musclepartid")
     public String musclePartId;
 
-//    @Column(name = "musclepartname",insertable = false)
-//    public String musclePartName;
+    @Column(name = "musclepartname",insertable = false)
+    public String musclePartName;
 
     @Column(name = "userid")
     public String userId;

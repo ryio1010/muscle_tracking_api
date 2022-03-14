@@ -27,7 +27,9 @@ public class MusclePartRestController {
         List<MusclePart> allMusclePart = musclePartService.getMusclePartAll();
         List<MusclePartResponse> musclePartResponses = new ArrayList<>();
         for (MusclePart musclePart : allMusclePart) {
-            MusclePartResponse response = new MusclePartResponse(musclePart.musclePartId,musclePart.musclePartName);
+            MusclePartResponse response = new MusclePartResponse();
+            response.musclePartId = musclePart.musclePartId;
+            response.musclePartName = musclePart.musclePartName;
             musclePartResponses.add(response);
         }
         return new ResponseEntity<>(musclePartResponses, HttpStatus.OK);
