@@ -9,5 +9,4 @@ public class UserLoginResponse {
     public String userId;
     public String userName;
     public String password;
-    public Boolean isFirstLogin;
 }

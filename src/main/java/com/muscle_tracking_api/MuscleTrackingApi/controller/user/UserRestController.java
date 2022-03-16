@@ -2,6 +2,7 @@ package com.muscle_tracking_api.MuscleTrackingApi.controller.user;
 
 import com.muscle_tracking_api.MuscleTrackingApi.entity.user.*;
 import com.muscle_tracking_api.MuscleTrackingApi.service.user.UserService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class UserRestController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     /**
      * ユーザーログインAPI
      *
@@ -28,21 +32,21 @@ public class UserRestController {
         // userIdからレコードを取得
         User userInfo = userService.getUserById(userLoginForm.userId);
 
+        // response
+        UserLoginResponse userLoginResponse = new UserLoginResponse();
+
         // ユーザー存在チェック
         if (userInfo == null) {
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(userLoginResponse, HttpStatus.NO_CONTENT);
         }
 
         // 認証チェック
-        if (!userLoginForm.userId.equals(userInfo.userId) || !userLoginForm.password.equals(userInfo.password)) {
-            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        if (!userLoginForm.password.equals(userInfo.password)) {
+            return new ResponseEntity<>(userLoginResponse, HttpStatus.FORBIDDEN);
         }
 
         // ユーザー情報をセット
-        UserLoginResponse userLoginResponse = new UserLoginResponse();
-        userLoginResponse.userId = userInfo.userId;
-        userLoginResponse.userName = userInfo.userNane;
-        userLoginResponse.password = userInfo.password;
+        modelMapper.map(userInfo, userLoginResponse);
 
         return new ResponseEntity<>(userLoginResponse, HttpStatus.OK);
     }
@@ -60,26 +64,20 @@ public class UserRestController {
         if (userinfo != null) {
             return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
         }
-        // 新規ユーザー登録
+
+        // 新規ユーザー登録情報をセット
         User registerUserInfo = new User();
-        registerUserInfo.userId = userRegisterForm.userId;
-        registerUserInfo.userNane = userRegisterForm.userName;
-        registerUserInfo.password = userRegisterForm.password;
-        registerUserInfo.regId = userRegisterForm.userId;
-        registerUserInfo.regDate = new Timestamp(System.currentTimeMillis());
-        registerUserInfo.updId = userRegisterForm.userId;
-        registerUserInfo.updDate = new Timestamp(System.currentTimeMillis());
-        registerUserInfo.version = 1;
+        modelMapper.map(userRegisterForm, registerUserInfo);
 
-
-        // DB登録
-        userService.insert(registerUserInfo);
+        // ユーザー登録
+        userService.insertUser(registerUserInfo);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
     }
 
     /**
      * ユーザー情報更新API
+     *
      * @param userUpdateForm
      * @return
      */
@@ -90,7 +88,7 @@ public class UserRestController {
 
         // m_user更新処理
         userInfo.userId = userUpdateForm.userId;
-        userInfo.userNane = userUpdateForm.userName;
+        userInfo.userName = userUpdateForm.userName;
         userInfo.password = userUpdateForm.password;
         userInfo.updId = userUpdateForm.userId;
         userInfo.updDate = new Timestamp(System.currentTimeMillis());
@@ -100,11 +98,12 @@ public class UserRestController {
 
         // update情報セット
         UserUpdateResponse userUpdateResponse = new UserUpdateResponse();
-        userUpdateResponse.userId = userUpdateForm.userId;
-        userUpdateResponse.userName = userUpdateForm.userName;
-        userUpdateResponse.password = userUpdateForm.password;
+        modelMapper.map(userUpdateForm, userUpdateResponse);
+//        userUpdateResponse.userId = userUpdateForm.userId;
+//        userUpdateResponse.userName = userUpdateForm.userName;
+//        userUpdateResponse.password = userUpdateForm.password;
 
-        return new ResponseEntity<>(userUpdateResponse,HttpStatus.OK);
+        return new ResponseEntity<>(userUpdateResponse, HttpStatus.OK);
     }
 
 

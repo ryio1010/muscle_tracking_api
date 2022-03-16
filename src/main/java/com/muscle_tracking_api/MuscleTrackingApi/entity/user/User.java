@@ -16,7 +16,7 @@ public class User extends BaseColumnEntity {
     public String userId;
 
     @Column(name = "username")
-    public String userNane;
+    public String userName;
 
     @Column(name = "password")
     public String password;

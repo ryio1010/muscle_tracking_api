@@ -27,8 +27,8 @@ public class UserService {
      * @param user
      * @return
      */
-    public int insert(User user) {
-        return userDao.insert(user);
+    public int insertUser(User user) {
+        return userDao.insertUser(user);
     }
 
     /**
