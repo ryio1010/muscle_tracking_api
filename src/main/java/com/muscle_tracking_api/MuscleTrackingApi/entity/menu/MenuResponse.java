@@ -9,10 +9,4 @@ public class MenuResponse {
     public Integer menuId;
     public String menuName;
     public String musclePart;
-
-    public MenuResponse(Integer menuId, String menuName, String musclePart) {
-        this.menuId = menuId;
-        this.menuName = menuName;
-        this.musclePart = musclePart;
-    }
 }

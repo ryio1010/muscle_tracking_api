@@ -13,18 +13,23 @@ import java.sql.Timestamp;
 @Setter
 public class BaseColumnEntity {
 
+    // 登録者
     @Column(name = "regid")
-    public String regid;
+    public String regId;
 
+    // 登録日
     @Column(name = "regdate")
-    public Timestamp regdate;
+    public Timestamp regDate;
 
+    // 更新者
     @Column(name = "updid")
-    public String updid;
+    public String updId;
 
+    // 更新日
     @Column(name = "upddate")
-    public Timestamp upddate;
+    public Timestamp updDate;
 
+    // バージョン
     @Version
     @Column(name = "version")
     public Integer version;

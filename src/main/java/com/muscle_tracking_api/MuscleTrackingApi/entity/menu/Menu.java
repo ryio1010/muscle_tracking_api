@@ -11,7 +11,8 @@ import org.seasar.doma.*;
 @Table(name = "m_menu")
 public class Menu extends BaseColumnEntity {
 
-    @Id@GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "m_menu_menuid_seq")
     @Column(name = "menuid")
     public Integer menuId;
@@ -27,4 +28,7 @@ public class Menu extends BaseColumnEntity {
 
     @Column(name = "userid")
     public String userId;
+
+    @Column(name = "status")
+    public Integer status;
 }

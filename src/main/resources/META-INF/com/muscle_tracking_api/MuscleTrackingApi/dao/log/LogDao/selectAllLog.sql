@@ -1,5 +1,5 @@
 select
-    t.id,
+    t.logid,
     t.menuid,
     m.menuname,
     t.trainingweight,

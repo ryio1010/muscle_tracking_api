@@ -25,7 +25,7 @@ public class LogService {
         return logDao.update(log);
     }
 
-    public  int deleteLog(Log log) {
+    public int deleteLog(Log log) {
         return logDao.delete(log);
     }
 }

@@ -25,20 +25,23 @@ public class MenuRestController {
     ResponseEntity<List<MenuResponse>> addMenu(@ModelAttribute MenuRegisterForm menuRegisterForm) {
         // menu登録処理
         Menu registerMenu = new Menu();
-        registerMenu.menuName = menuRegisterForm.menuname;
-        registerMenu.musclePartId = menuRegisterForm.musclepartid;
-        registerMenu.userId = menuRegisterForm.userid;
-        registerMenu.regid = menuRegisterForm.userid;
-        registerMenu.regdate = new Timestamp(System.currentTimeMillis());
-        registerMenu.updid = menuRegisterForm.userid;
-        registerMenu.upddate = new Timestamp(System.currentTimeMillis());
+        registerMenu.menuName = menuRegisterForm.menuName;
+        registerMenu.musclePartId = menuRegisterForm.musclePartId;
+        registerMenu.userId = menuRegisterForm.userId;
+        registerMenu.regId = menuRegisterForm.userId;
+        registerMenu.regDate = new Timestamp(System.currentTimeMillis());
+        registerMenu.updId = menuRegisterForm.userId;
+        registerMenu.updDate = new Timestamp(System.currentTimeMillis());
 
         menuService.insertMenu(registerMenu);
 
         List<Menu> allMenu = menuService.getMenuAll();
         List<MenuResponse> menuResponses = new ArrayList<>();
         for ( Menu menu:allMenu) {
-            MenuResponse response = new MenuResponse(menu.menuId,menu.menuName,menu.musclePartName);
+            MenuResponse response = new MenuResponse();
+            response.menuId = menu.menuId;
+            response.menuName = menu.menuName;
+            response.musclePart = menu.musclePartName;
             menuResponses.add(response);
         }
 
@@ -53,7 +56,10 @@ public class MenuRestController {
         List<Menu> allMenu = menuService.getMenuAll();
         List<MenuResponse> menuResponses = new ArrayList<>();
         for ( Menu menu:allMenu) {
-            MenuResponse response = new MenuResponse(menu.menuId,menu.menuName,menu.musclePartName);
+            MenuResponse response = new MenuResponse();
+            response.menuId = menu.menuId;
+            response.menuName = menu.menuName;
+            response.musclePart = menu.musclePartName;
             menuResponses.add(response);
         }
         return new ResponseEntity<>(menuResponses,HttpStatus.OK);

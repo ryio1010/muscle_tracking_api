@@ -13,6 +13,7 @@ public class UserService {
 
     /**
      * m_userテーブルからuidで１件検索
+     *
      * @param userId
      * @return
      */
@@ -22,19 +23,25 @@ public class UserService {
 
     /**
      * m_userテーブルInsert
+     *
      * @param user
      * @return
      */
-    public int insert(User user) {
-        return userDao.insert(user);
+    public int insertUser(User user) {
+        return userDao.insertUser(user);
     }
 
     /**
      * m_userテーブルUpdate
+     *
      * @param user
      * @return
      */
     public int update(User user) {
         return userDao.update(user);
+    }
+
+    public int delete(User user) {
+        return userDao.delete(user);
     }
 }
