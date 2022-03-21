@@ -13,6 +13,12 @@ public interface BodyCompDao {
     @Select
     List<BodyComp> selectAllBodyComp(String userId);
 
+    @Select
+    BodyComp selectLatestBodyComp(String userId);
+
+    @Select
+    BodyComp selectBodyCompById(Integer bodyCompId);
+
     @Insert
     int insert(BodyComp bodyComp);
 

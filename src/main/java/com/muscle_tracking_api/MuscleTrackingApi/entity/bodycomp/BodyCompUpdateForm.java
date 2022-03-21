@@ -5,12 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class BodyCompResponse {
+public class BodyCompUpdateForm {
     public Integer bodyCompId;
     public Double height;
     public Double weight;
     public Double bfp;
-    public Double bmi;
-    public Double lbm;
-    public String bodyCompDate;
+    public String userId;
 }
