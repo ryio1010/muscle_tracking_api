@@ -8,6 +8,7 @@ import org.seasar.doma.*;
 @Entity
 @Getter
 @Setter
+@Table(name = "t_bodycomp")
 public class BodyComp extends BaseColumnEntity {
 
     @Id
@@ -22,11 +23,11 @@ public class BodyComp extends BaseColumnEntity {
     @Column(name = "weight")
     public Double weight;
 
-    @Column(name = "bmi")
-    public Double bmi;
+    @Column(name = "bfp")
+    public Double bfp;
 
     @Column(name = "date")
-    public String date;
+    public String bodyCompDate;
 
     @Column(name = "userid")
     public String userId;
