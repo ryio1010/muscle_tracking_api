@@ -4,6 +4,7 @@ import com.muscle_tracking_api.MuscleTrackingApi.entity.log.Log;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogRegisterForm;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogResponse;
 import com.muscle_tracking_api.MuscleTrackingApi.service.log.LogService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,20 @@ public class LogRestController {
     @Autowired
     LogService logService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @GetMapping("/{userId}")
     @ResponseBody
     ResponseEntity<List<LogResponse>> getALlLog(@PathVariable String userId) {
+
         List<Log> allLog = logService.getAllLog(userId);
         List<LogResponse> responses = new ArrayList<>();
-        for (Log log: allLog) {
+
+        for (Log log : allLog) {
             LogResponse logResponse = new LogResponse();
-            logResponse.logId = log.logId;
-            logResponse.menuId = log.menuId;
-            logResponse.menuName = log.menuName;
-            logResponse.trainingWeight = Double.valueOf(log.trainingWeight);
-            logResponse.trainingCount = log.trainingCount;
-            logResponse.trainingDate = log.trainingDate;
+
+            modelMapper.map(log, logResponse);
             responses.add(logResponse);
         }
         return new ResponseEntity<>(responses, HttpStatus.OK);
@@ -41,18 +43,14 @@ public class LogRestController {
     @PostMapping("/add")
     @ResponseBody
     ResponseEntity<Boolean> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
+
         Log addLog = new Log();
-        addLog.menuId = Integer.valueOf(logRegisterForm.menuId);
-        addLog.trainingWeight = logRegisterForm.trainingWeight;
-        addLog.trainingCount = Integer.valueOf(logRegisterForm.trainingCount);
-        addLog.trainingDate = logRegisterForm.trainingDate;
+
+        modelMapper.map(logRegisterForm, addLog);
         addLog.userId = logRegisterForm.userId;
-        addLog.regId = logRegisterForm.userId;
-        addLog.regDate = new Timestamp(System.currentTimeMillis());
-        addLog.updId = logRegisterForm.userId;
-        addLog.updDate = new Timestamp(System.currentTimeMillis());
+
         logService.insertLog(addLog);
 
-        return new ResponseEntity<>(true,HttpStatus.OK);
+        return new ResponseEntity<>(true, HttpStatus.OK);
     }
 }

@@ -26,7 +26,7 @@ public class BodyComp extends BaseColumnEntity {
     @Column(name = "bfp")
     public Double bfp;
 
-    @Column(name = "date")
+    @Column(name = "bodycompdate")
     public String bodyCompDate;
 
     @Column(name = "userid")

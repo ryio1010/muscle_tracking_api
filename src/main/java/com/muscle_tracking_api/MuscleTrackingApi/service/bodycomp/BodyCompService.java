@@ -26,7 +26,7 @@ public class BodyCompService {
     }
 
     public int insertBodyComp(BodyComp bodyComp) {
-        return bodyCompDao.insert(bodyComp);
+        return bodyCompDao.insertBodyComp(bodyComp);
     }
 
     public int updateBodyComp(BodyComp bodyComp) {

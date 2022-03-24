@@ -8,5 +8,5 @@ import lombok.Setter;
 public class MenuResponse {
     public Integer menuId;
     public String menuName;
-    public String musclePart;
+    public String musclePartName;
 }

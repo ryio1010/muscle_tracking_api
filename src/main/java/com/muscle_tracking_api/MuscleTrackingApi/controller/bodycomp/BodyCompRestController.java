@@ -28,35 +28,34 @@ public class BodyCompRestController {
     @GetMapping("/{userId}")
     @ResponseBody
     ResponseEntity<List<BodyCompResponse>> getAllBodyComp(@PathVariable String userId) {
+
         List<BodyComp> allBodyComp = bodyCompService.getAllBodyComp(userId);
         List<BodyCompResponse> responses = new ArrayList<>();
+
         for (BodyComp bc : allBodyComp) {
             BodyCompResponse bodyCompResponse = new BodyCompResponse();
-            bodyCompResponse.bodyCompId = bc.bodyCompId;
-            bodyCompResponse.height = bc.height;
-            bodyCompResponse.weight = bc.weight;
-            bodyCompResponse.bfp = bc.bfp;
+            modelMapper.map(bc, bodyCompResponse);
             bodyCompResponse.bmi = calculateBmi(bc.height, bc.weight);
             bodyCompResponse.lbm = calculateLbm(bc.weight, bc.bfp);
-            bodyCompResponse.bodyCompDate = bc.bodyCompDate;
+
             responses.add(bodyCompResponse);
         }
+
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
     @PostMapping("/add")
     @ResponseBody
     ResponseEntity<BodyCompResponse> addBodyComp(@ModelAttribute BodyCompRegisterForm bodyCompRegisterForm) {
+
         BodyComp addBodyComp = new BodyComp();
+
         modelMapper.map(bodyCompRegisterForm, addBodyComp);
-        addBodyComp.regId = bodyCompRegisterForm.userId;
-        addBodyComp.regDate = new Timestamp(System.currentTimeMillis());
-        addBodyComp.updId = bodyCompRegisterForm.userId;
-        addBodyComp.updDate = new Timestamp(System.currentTimeMillis());
         bodyCompService.insertBodyComp(addBodyComp);
 
         BodyComp latestBodyComp = bodyCompService.getLatestBodyComp(bodyCompRegisterForm.userId);
         BodyCompResponse response = new BodyCompResponse();
+
         modelMapper.map(latestBodyComp, response);
         response.bmi = calculateBmi(response.height, response.weight);
         response.lbm = calculateLbm(response.weight, response.bfp);
@@ -70,12 +69,16 @@ public class BodyCompRestController {
 
         BodyComp updateBodyComp = bodyCompService.getBodyCompById(bodyCompUpdateForm.getBodyCompId());
         modelMapper.map(bodyCompUpdateForm, updateBodyComp);
+
+        // 更新ID,更新日の更新
         updateBodyComp.updId = bodyCompUpdateForm.userId;
         updateBodyComp.updDate = new Timestamp(System.currentTimeMillis());
+
         bodyCompService.updateBodyComp(updateBodyComp);
 
         BodyComp bc = bodyCompService.getBodyCompById(bodyCompUpdateForm.bodyCompId);
         BodyCompResponse response = new BodyCompResponse();
+
         modelMapper.map(bc, response);
         response.bmi = calculateBmi(response.height, response.weight);
         response.lbm = calculateLbm(response.weight, response.bfp);

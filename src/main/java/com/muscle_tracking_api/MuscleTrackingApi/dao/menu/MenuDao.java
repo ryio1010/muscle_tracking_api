@@ -16,7 +16,7 @@ public interface MenuDao {
     List<Menu> selectMenusByMusclePart(String musclePart);
 
     @Insert
-    int insert(Menu menu);
+    int insertMenu(Menu menu);
 
     @Update
     int update(Menu menu);

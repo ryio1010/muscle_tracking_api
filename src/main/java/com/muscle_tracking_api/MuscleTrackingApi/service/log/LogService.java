@@ -18,7 +18,7 @@ public class LogService {
     }
 
     public int insertLog(Log log) {
-        return logDao.insert(log);
+        return logDao.insertLog(log);
     }
 
     public int updateLog(Log log) {

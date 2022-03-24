@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Setter
 public class BaseColumnEntity {
 
-    // 登録者
+    // 登録者ID
     @Column(name = "regid")
     public String regId;
 
@@ -21,7 +21,7 @@ public class BaseColumnEntity {
     @Column(name = "regdate")
     public Timestamp regDate;
 
-    // 更新者
+    // 更新者ID
     @Column(name = "updid")
     public String updId;
 

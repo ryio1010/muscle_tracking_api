@@ -3,6 +3,7 @@ package com.muscle_tracking_api.MuscleTrackingApi.controller.musclepart;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.musclepart.MusclePart;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.musclepart.MusclePartResponse;
 import com.muscle_tracking_api.MuscleTrackingApi.service.musclepart.MusclePartService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,17 +22,22 @@ public class MusclePartRestController {
     @Autowired
     MusclePartService musclePartService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @GetMapping
     @ResponseBody
     ResponseEntity<List<MusclePartResponse>> getAllMusclePart() {
+
         List<MusclePart> allMusclePart = musclePartService.getMusclePartAll();
         List<MusclePartResponse> musclePartResponses = new ArrayList<>();
+
         for (MusclePart musclePart : allMusclePart) {
             MusclePartResponse response = new MusclePartResponse();
-            response.musclePartId = musclePart.musclePartId;
-            response.musclePartName = musclePart.musclePartName;
+            modelMapper.map(musclePart, response);
             musclePartResponses.add(response);
         }
+
         return new ResponseEntity<>(musclePartResponses, HttpStatus.OK);
     }
 }

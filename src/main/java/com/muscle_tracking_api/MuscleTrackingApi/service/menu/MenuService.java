@@ -22,7 +22,7 @@ public class MenuService {
     }
 
     public int insertMenu(Menu menu) {
-        return menuDao.insert(menu);
+        return menuDao.insertMenu(menu);
     }
 
     public int updateMenu(Menu menu) {
