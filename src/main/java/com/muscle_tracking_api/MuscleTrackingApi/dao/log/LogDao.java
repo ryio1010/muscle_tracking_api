@@ -13,6 +13,9 @@ public interface LogDao {
     @Select
     List<Log> selectAllLog(String userId);
 
+    @Select
+    Log selectLogById(Integer logId);
+
     @Insert(sqlFile = true)
     int insertLog(Log log);
 

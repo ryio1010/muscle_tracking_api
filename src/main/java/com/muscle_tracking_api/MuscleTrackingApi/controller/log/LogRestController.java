@@ -3,6 +3,7 @@ package com.muscle_tracking_api.MuscleTrackingApi.controller.log;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.Log;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogRegisterForm;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogResponse;
+import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogUpdateForm;
 import com.muscle_tracking_api.MuscleTrackingApi.service.log.LogService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,5 +53,34 @@ public class LogRestController {
         logService.insertLog(addLog);
 
         return new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    ResponseEntity<LogResponse> updateLog(@ModelAttribute LogUpdateForm logUpdateForm) {
+        Log logInfo = logService.getLogById(Integer.valueOf(logUpdateForm.logId));
+
+        logInfo.menuId = Integer.valueOf(logUpdateForm.menuId);
+        logInfo.trainingWeight = logUpdateForm.trainingWeight;
+        logInfo.trainingCount = logUpdateForm.trainingCount;
+        logInfo.trainingDate = logUpdateForm.trainingDate;
+        logInfo.updId = logUpdateForm.userId;
+        logInfo.updDate = new Timestamp(System.currentTimeMillis());
+
+        logService.updateLog(logInfo);
+
+        LogResponse response = new LogResponse();
+        modelMapper.map(logInfo, response);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{logId}")
+    @ResponseBody
+    ResponseEntity<String> deleteLog(@PathVariable String logId) {
+        Log deleteLog = new Log();
+        deleteLog.logId = Integer.valueOf(logId);
+        logService.deleteLog(deleteLog);
+        return new ResponseEntity<>(logId, HttpStatus.OK);
     }
 }

@@ -14,7 +14,7 @@ version
 )
 VALUES
 (
-/* log.logId */'',
+default,
 /* log.menuId */'',
 /* log.trainingWeight */'',
 /* log.trainingCount */'',
