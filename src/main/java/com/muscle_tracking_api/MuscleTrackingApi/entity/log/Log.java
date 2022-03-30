@@ -31,6 +31,9 @@ public class Log extends BaseColumnEntity {
     @Column(name = "trainingdate")
     public String trainingDate;
 
+    @Column(name = "trainingmemo")
+    public String trainingMemo;
+
     @Column(name = "userid")
     public String userId;
 }

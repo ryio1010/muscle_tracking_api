@@ -29,9 +29,11 @@ public class BodyCompRestController {
     @ResponseBody
     ResponseEntity<List<BodyCompResponse>> getAllBodyComp(@PathVariable String userId) {
 
+        // 全体組成データ取得
         List<BodyComp> allBodyComp = bodyCompService.getAllBodyComp(userId);
         List<BodyCompResponse> responses = new ArrayList<>();
 
+        // レスポンスの作成
         for (BodyComp bc : allBodyComp) {
             BodyCompResponse bodyCompResponse = new BodyCompResponse();
             modelMapper.map(bc, bodyCompResponse);
@@ -48,11 +50,12 @@ public class BodyCompRestController {
     @ResponseBody
     ResponseEntity<BodyCompResponse> addBodyComp(@ModelAttribute BodyCompRegisterForm bodyCompRegisterForm) {
 
+        // 体組成データInsert
         BodyComp addBodyComp = new BodyComp();
-
         modelMapper.map(bodyCompRegisterForm, addBodyComp);
         bodyCompService.insertBodyComp(addBodyComp);
 
+        // レスポンス作成
         BodyComp latestBodyComp = bodyCompService.getLatestBodyComp(bodyCompRegisterForm.userId);
         BodyCompResponse response = new BodyCompResponse();
 
@@ -67,6 +70,7 @@ public class BodyCompRestController {
     @ResponseBody
     ResponseEntity<BodyCompResponse> updateBodyComp(@ModelAttribute BodyCompUpdateForm bodyCompUpdateForm) {
 
+        // 更新対象を取得し、詰替え
         BodyComp updateBodyComp = bodyCompService.getBodyCompById(bodyCompUpdateForm.getBodyCompId());
         modelMapper.map(bodyCompUpdateForm, updateBodyComp);
 
@@ -76,6 +80,7 @@ public class BodyCompRestController {
 
         bodyCompService.updateBodyComp(updateBodyComp);
 
+        // レスポンスの作成
         BodyComp bc = bodyCompService.getBodyCompById(bodyCompUpdateForm.bodyCompId);
         BodyCompResponse response = new BodyCompResponse();
 

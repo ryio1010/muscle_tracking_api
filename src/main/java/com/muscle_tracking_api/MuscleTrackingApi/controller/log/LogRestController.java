@@ -43,27 +43,29 @@ public class LogRestController {
 
     @PostMapping("/add")
     @ResponseBody
-    ResponseEntity<Boolean> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
+    ResponseEntity<LogResponse> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
 
         Log addLog = new Log();
 
         modelMapper.map(logRegisterForm, addLog);
-        addLog.userId = logRegisterForm.userId;
-
         logService.insertLog(addLog);
 
-        return new ResponseEntity<>(true, HttpStatus.OK);
+
+        Log insertedLog = logService.getLatestLog(logRegisterForm.userId);
+        LogResponse response = new LogResponse();
+        modelMapper.map(insertedLog, response);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping
     @ResponseBody
     ResponseEntity<LogResponse> updateLog(@ModelAttribute LogUpdateForm logUpdateForm) {
-        Log logInfo = logService.getLogById(Integer.valueOf(logUpdateForm.logId));
 
-        logInfo.menuId = Integer.valueOf(logUpdateForm.menuId);
-        logInfo.trainingWeight = logUpdateForm.trainingWeight;
-        logInfo.trainingCount = logUpdateForm.trainingCount;
-        logInfo.trainingDate = logUpdateForm.trainingDate;
+        Log logInfo = logService.getLogById(Integer.valueOf(logUpdateForm.logId));
+        modelMapper.map(logUpdateForm,logInfo);
+
+        // 更新者ID、更新日の設定
         logInfo.updId = logUpdateForm.userId;
         logInfo.updDate = new Timestamp(System.currentTimeMillis());
 
