@@ -14,7 +14,7 @@ version
 )
 VALUES
 (
-/* default */'',
+default,
 /* bodyComp.height */'',
 /* bodyComp.weight */'',
 /* bodyComp.bfp */'',
