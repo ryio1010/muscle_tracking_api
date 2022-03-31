@@ -3,7 +3,9 @@ package com.muscle_tracking_api.MuscleTrackingApi.controller.log;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.Log;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogRegisterForm;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogResponse;
+import com.muscle_tracking_api.MuscleTrackingApi.entity.log.LogUpdateForm;
 import com.muscle_tracking_api.MuscleTrackingApi.service.log.LogService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +22,20 @@ public class LogRestController {
     @Autowired
     LogService logService;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     @GetMapping("/{userId}")
     @ResponseBody
     ResponseEntity<List<LogResponse>> getALlLog(@PathVariable String userId) {
+
         List<Log> allLog = logService.getAllLog(userId);
         List<LogResponse> responses = new ArrayList<>();
-        for (Log log: allLog) {
+
+        for (Log log : allLog) {
             LogResponse logResponse = new LogResponse();
-            logResponse.logId = log.logId;
-            logResponse.menuId = log.menuId;
-            logResponse.menuName = log.menuName;
-            logResponse.trainingWeight = Double.valueOf(log.trainingWeight);
-            logResponse.trainingCount = log.trainingCount;
-            logResponse.trainingDate = log.trainingDate;
+
+            modelMapper.map(log, logResponse);
             responses.add(logResponse);
         }
         return new ResponseEntity<>(responses, HttpStatus.OK);
@@ -40,19 +43,46 @@ public class LogRestController {
 
     @PostMapping("/add")
     @ResponseBody
-    ResponseEntity<Boolean> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
+    ResponseEntity<LogResponse> addLog(@ModelAttribute LogRegisterForm logRegisterForm) {
+
         Log addLog = new Log();
-        addLog.menuId = Integer.valueOf(logRegisterForm.menuId);
-        addLog.trainingWeight = logRegisterForm.trainingWeight;
-        addLog.trainingCount = Integer.valueOf(logRegisterForm.trainingCount);
-        addLog.trainingDate = logRegisterForm.trainingDate;
-        addLog.userId = logRegisterForm.userId;
-        addLog.regId = logRegisterForm.userId;
-        addLog.regDate = new Timestamp(System.currentTimeMillis());
-        addLog.updId = logRegisterForm.userId;
-        addLog.updDate = new Timestamp(System.currentTimeMillis());
+
+        modelMapper.map(logRegisterForm, addLog);
         logService.insertLog(addLog);
 
-        return new ResponseEntity<>(true,HttpStatus.OK);
+
+        Log insertedLog = logService.getLatestLog(logRegisterForm.userId);
+        LogResponse response = new LogResponse();
+        modelMapper.map(insertedLog, response);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping
+    @ResponseBody
+    ResponseEntity<LogResponse> updateLog(@ModelAttribute LogUpdateForm logUpdateForm) {
+
+        Log logInfo = logService.getLogById(Integer.valueOf(logUpdateForm.logId));
+        modelMapper.map(logUpdateForm,logInfo);
+
+        // 更新者ID、更新日の設定
+        logInfo.updId = logUpdateForm.userId;
+        logInfo.updDate = new Timestamp(System.currentTimeMillis());
+
+        logService.updateLog(logInfo);
+
+        LogResponse response = new LogResponse();
+        modelMapper.map(logInfo, response);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{logId}")
+    @ResponseBody
+    ResponseEntity<String> deleteLog(@PathVariable String logId) {
+        Log deleteLog = new Log();
+        deleteLog.logId = Integer.valueOf(logId);
+        logService.deleteLog(deleteLog);
+        return new ResponseEntity<>(logId, HttpStatus.OK);
     }
 }

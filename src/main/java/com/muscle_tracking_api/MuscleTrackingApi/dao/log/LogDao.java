@@ -13,8 +13,14 @@ public interface LogDao {
     @Select
     List<Log> selectAllLog(String userId);
 
-    @Insert
-    int insert(Log log);
+    @Select
+    Log selectLogById(Integer logId);
+
+    @Select
+    Log selectLatestLog(String userId);
+
+    @Insert(sqlFile = true)
+    int insertLog(Log log);
 
     @Update
     int update(Log log);

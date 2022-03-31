@@ -17,8 +17,16 @@ public class LogService {
         return logDao.selectAllLog(userId);
     }
 
+    public Log getLogById(Integer logId) {
+        return logDao.selectLogById(logId);
+    }
+
+    public Log getLatestLog(String userId) {
+        return logDao.selectLatestLog(userId);
+    }
+
     public int insertLog(Log log) {
-        return logDao.insert(log);
+        return logDao.insertLog(log);
     }
 
     public int updateLog(Log log) {

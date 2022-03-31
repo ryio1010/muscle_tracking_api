@@ -5,12 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class LogResponse {
-    public Integer logId;
-    public Integer menuId;
+public class LogUpdateForm {
+    public String logId;
+    public String menuId;
     public String menuName;
     public Double trainingWeight;
     public Integer trainingCount;
-    public String trainingMemo;
     public String trainingDate;
+    public String userId;
 }

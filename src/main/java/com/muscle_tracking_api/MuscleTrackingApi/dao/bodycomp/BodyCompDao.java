@@ -19,8 +19,8 @@ public interface BodyCompDao {
     @Select
     BodyComp selectBodyCompById(Integer bodyCompId);
 
-    @Insert
-    int insert(BodyComp bodyComp);
+    @Insert(sqlFile = true)
+    int insertBodyComp(BodyComp bodyComp);
 
     @Update
     int update(BodyComp bodyComp);

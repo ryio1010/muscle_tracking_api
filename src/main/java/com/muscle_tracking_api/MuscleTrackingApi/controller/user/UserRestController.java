@@ -1,6 +1,7 @@
 package com.muscle_tracking_api.MuscleTrackingApi.controller.user;
 
 import com.muscle_tracking_api.MuscleTrackingApi.entity.user.*;
+import com.muscle_tracking_api.MuscleTrackingApi.exception.NoDataFoundException;
 import com.muscle_tracking_api.MuscleTrackingApi.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class UserRestController {
      */
     @PostMapping(value = "/login")
     @ResponseBody
-    ResponseEntity<UserLoginResponse> login(@ModelAttribute UserLoginForm userLoginForm) {
+    ResponseEntity<UserLoginResponse> login(@ModelAttribute UserLoginForm userLoginForm) throws NoDataFoundException {
         // userIdからレコードを取得
         User userInfo = userService.getUserById(userLoginForm.userId);
 
@@ -37,7 +38,7 @@ public class UserRestController {
 
         // ユーザー存在チェック
         if (userInfo == null) {
-            return new ResponseEntity<>(userLoginResponse, HttpStatus.NO_CONTENT);
+            throw new NoDataFoundException("No User Found!!");
         }
 
         // 認証チェック
