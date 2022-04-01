@@ -21,6 +21,14 @@ public class AllExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, msg, null, HttpStatus.NOT_FOUND, request);
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({NotAuthenticationUserException.class})
+    public ResponseEntity<Object> handleNotAuthenticationUserException(NotAuthenticationUserException ex, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+
+        return handleExceptionInternal(ex, msg, null, HttpStatus.FORBIDDEN, request);
+    }
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {

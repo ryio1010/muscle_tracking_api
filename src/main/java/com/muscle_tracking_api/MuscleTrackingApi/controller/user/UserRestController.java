@@ -2,6 +2,7 @@ package com.muscle_tracking_api.MuscleTrackingApi.controller.user;
 
 import com.muscle_tracking_api.MuscleTrackingApi.entity.user.*;
 import com.muscle_tracking_api.MuscleTrackingApi.exception.NoDataFoundException;
+import com.muscle_tracking_api.MuscleTrackingApi.exception.NotAuthenticationUserException;
 import com.muscle_tracking_api.MuscleTrackingApi.service.user.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class UserRestController {
 
         // 認証チェック
         if (!userLoginForm.password.equals(userInfo.password)) {
-            return new ResponseEntity<>(userLoginResponse, HttpStatus.FORBIDDEN);
+            throw new NotAuthenticationUserException("Not Authenticate!!");
         }
 
         // ユーザー情報をセット
@@ -63,7 +64,7 @@ public class UserRestController {
         // ユーザーID重複チェック
         User userinfo = userService.getUserById(userRegisterForm.userId);
         if (userinfo != null) {
-            return new ResponseEntity<>(false, HttpStatus.NOT_ACCEPTABLE);
+            throw new NotAuthenticationUserException("This userId is already used!!");
         }
 
         // 新規ユーザー登録情報をセット
@@ -100,9 +101,6 @@ public class UserRestController {
         // update情報セット
         UserUpdateResponse userUpdateResponse = new UserUpdateResponse();
         modelMapper.map(userUpdateForm, userUpdateResponse);
-//        userUpdateResponse.userId = userUpdateForm.userId;
-//        userUpdateResponse.userName = userUpdateForm.userName;
-//        userUpdateResponse.password = userUpdateForm.password;
 
         return new ResponseEntity<>(userUpdateResponse, HttpStatus.OK);
     }
