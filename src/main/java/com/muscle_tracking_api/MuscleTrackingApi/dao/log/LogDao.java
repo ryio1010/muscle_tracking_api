@@ -1,6 +1,6 @@
 package com.muscle_tracking_api.MuscleTrackingApi.dao.log;
 
-import com.muscle_tracking_api.MuscleTrackingApi.entity.log.Log;
+import com.muscle_tracking_api.MuscleTrackingApi.entity.log.TrainingLog;
 import org.seasar.doma.*;
 import org.seasar.doma.boot.ConfigAutowireable;
 
@@ -11,20 +11,20 @@ import java.util.List;
 public interface LogDao {
 
     @Select
-    List<Log> selectAllLog(String userId);
+    List<TrainingLog> selectAllLog(String userId);
 
     @Select
-    Log selectLogById(Integer logId);
+    TrainingLog selectLogById(Integer logId);
 
     @Select
-    Log selectLatestLog(String userId);
+    TrainingLog selectLatestLog(String userId);
 
     @Insert(sqlFile = true)
-    int insertLog(Log log);
+    int insertLog(TrainingLog log);
 
     @Update
-    int update(Log log);
+    int update(TrainingLog log);
 
     @Delete
-    int delete(Log log);
+    int delete(TrainingLog log);
 }

@@ -4,6 +4,7 @@ import com.muscle_tracking_api.MuscleTrackingApi.entity.bodycomp.BodyComp;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.bodycomp.BodyCompRegisterForm;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.bodycomp.BodyCompResponse;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.bodycomp.BodyCompUpdateForm;
+import com.muscle_tracking_api.MuscleTrackingApi.exception.NoDataFoundException;
 import com.muscle_tracking_api.MuscleTrackingApi.service.bodycomp.BodyCompService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,13 @@ public class BodyCompRestController {
 
         // 全体組成データ取得
         List<BodyComp> allBodyComp = bodyCompService.getAllBodyComp(userId);
-        List<BodyCompResponse> responses = new ArrayList<>();
+        if (allBodyComp == null) {
+            throw new NoDataFoundException("Not Found Any BodyComp!!");
+        }
+
 
         // レスポンスの作成
+        List<BodyCompResponse> responses = new ArrayList<>();
         for (BodyComp bc : allBodyComp) {
             BodyCompResponse bodyCompResponse = new BodyCompResponse();
             modelMapper.map(bc, bodyCompResponse);
@@ -55,10 +60,11 @@ public class BodyCompRestController {
         modelMapper.map(bodyCompRegisterForm, addBodyComp);
         bodyCompService.insertBodyComp(addBodyComp);
 
+        // TODO : Insertデータを取得するようにしたい
         // レスポンス作成
         BodyComp latestBodyComp = bodyCompService.getLatestBodyComp(bodyCompRegisterForm.userId);
-        BodyCompResponse response = new BodyCompResponse();
 
+        BodyCompResponse response = new BodyCompResponse();
         modelMapper.map(latestBodyComp, response);
         response.bmi = calculateBmi(response.height, response.weight);
         response.lbm = calculateLbm(response.weight, response.bfp);
@@ -70,20 +76,23 @@ public class BodyCompRestController {
     @ResponseBody
     ResponseEntity<BodyCompResponse> updateBodyComp(@ModelAttribute BodyCompUpdateForm bodyCompUpdateForm) {
 
-        // 更新対象を取得し、詰替え
+        // 更新対象を取得
         BodyComp updateBodyComp = bodyCompService.getBodyCompById(bodyCompUpdateForm.getBodyCompId());
-        modelMapper.map(bodyCompUpdateForm, updateBodyComp);
+        if (updateBodyComp == null) {
+            throw new NoDataFoundException("Not Found Body Comp Of This Id!!");
+        }
 
-        // 更新ID,更新日の更新
+        // 情報更新し、Update
+        modelMapper.map(bodyCompUpdateForm, updateBodyComp);
         updateBodyComp.updId = bodyCompUpdateForm.userId;
         updateBodyComp.updDate = new Timestamp(System.currentTimeMillis());
-
         bodyCompService.updateBodyComp(updateBodyComp);
 
+        // TODO : Updateデータを取得するようにしたい
         // レスポンスの作成
         BodyComp bc = bodyCompService.getBodyCompById(bodyCompUpdateForm.bodyCompId);
-        BodyCompResponse response = new BodyCompResponse();
 
+        BodyCompResponse response = new BodyCompResponse();
         modelMapper.map(bc, response);
         response.bmi = calculateBmi(response.height, response.weight);
         response.lbm = calculateLbm(response.weight, response.bfp);

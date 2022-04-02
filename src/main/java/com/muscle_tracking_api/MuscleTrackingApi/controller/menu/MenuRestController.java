@@ -3,6 +3,7 @@ package com.muscle_tracking_api.MuscleTrackingApi.controller.menu;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.menu.Menu;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.menu.MenuRegisterForm;
 import com.muscle_tracking_api.MuscleTrackingApi.entity.menu.MenuResponse;
+import com.muscle_tracking_api.MuscleTrackingApi.exception.NoDataFoundException;
 import com.muscle_tracking_api.MuscleTrackingApi.service.menu.MenuService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,38 +24,39 @@ public class MenuRestController {
     @Autowired
     ModelMapper modelMapper;
 
-    @PostMapping("/add")
-    @ResponseBody
-    ResponseEntity<List<MenuResponse>> addMenu(@ModelAttribute MenuRegisterForm menuRegisterForm) {
-        // menu登録処理
-        Menu registerMenu = new Menu();
-        modelMapper.map(menuRegisterForm, registerMenu);
-
-        menuService.insertMenu(registerMenu);
-
-        List<Menu> allMenu = menuService.getMenuAll();
-        List<MenuResponse> menuResponses = new ArrayList<>();
-        for (Menu menu : allMenu) {
-            MenuResponse response = new MenuResponse();
-            modelMapper.map(menu, response);
-            menuResponses.add(response);
-        }
-
-
-        return new ResponseEntity<>(menuResponses, HttpStatus.OK);
-    }
-
     @GetMapping("/{userId}")
     @ResponseBody
     ResponseEntity<List<MenuResponse>> getAllMenu(@ModelAttribute String userId) {
         // 全メニュー取得処理
         List<Menu> allMenu = menuService.getMenuAll();
+        if (allMenu == null) {
+            throw new NoDataFoundException("Not Found Menu!!");
+        }
+
+        // レスポンスの作成
         List<MenuResponse> menuResponses = new ArrayList<>();
         for (Menu menu : allMenu) {
             MenuResponse response = new MenuResponse();
             modelMapper.map(menu, response);
             menuResponses.add(response);
         }
+
         return new ResponseEntity<>(menuResponses, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    ResponseEntity<MenuResponse> addMenu(@ModelAttribute MenuRegisterForm menuRegisterForm) {
+        // menu登録処理
+        Menu registerMenu = new Menu();
+        modelMapper.map(menuRegisterForm, registerMenu);
+        menuService.insertMenu(registerMenu);
+
+        // TODO : Insertデータを取得するようにしたい
+        // レスポンス作成
+        MenuResponse menuResponse = new MenuResponse();
+        modelMapper.map(menuRegisterForm, menuResponse);
+
+        return new ResponseEntity<>(menuResponse, HttpStatus.OK);
     }
 }
