@@ -12,5 +12,6 @@ public class LogUpdateForm {
     public Double trainingWeight;
     public Integer trainingCount;
     public String trainingDate;
+    public String trainingMemo;
     public String userId;
 }

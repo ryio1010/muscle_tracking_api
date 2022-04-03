@@ -10,5 +10,6 @@ public class LogRegisterForm {
     public Double trainingWeight;
     public Integer trainingCount;
     public String trainingDate;
+    public String trainingMemo;
     public String userId;
 }

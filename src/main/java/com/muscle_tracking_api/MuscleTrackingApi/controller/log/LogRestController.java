@@ -41,6 +41,9 @@ public class LogRestController {
         for (TrainingLog log : allLog) {
             LogResponse logResponse = new LogResponse();
             modelMapper.map(log, logResponse);
+            if (logResponse.trainingMemo == null) {
+                logResponse.trainingMemo = "";
+            }
 
             responses.add(logResponse);
         }
@@ -62,11 +65,14 @@ public class LogRestController {
         TrainingLog insertedLog = logService.getLatestLog(logRegisterForm.userId);
         LogResponse response = new LogResponse();
         modelMapper.map(insertedLog, response);
+        if (response.trainingMemo == null) {
+            response.trainingMemo = "";
+        }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping({"/{logId}"})
+    @PutMapping()
     @ResponseBody
     ResponseEntity<LogResponse> updateLog(@ModelAttribute LogUpdateForm logUpdateForm) {
 
@@ -86,6 +92,9 @@ public class LogRestController {
         // レスポンスの作成
         LogResponse response = new LogResponse();
         modelMapper.map(logInfo, response);
+        if (response.trainingMemo == null) {
+            response.trainingMemo = "";
+        }
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -94,7 +103,8 @@ public class LogRestController {
     @ResponseBody
     ResponseEntity<String> deleteLog(@PathVariable String logId) {
 
-        TrainingLog deleteLog = new TrainingLog();
+        TrainingLog deleteLog = logService.getLogById(Integer.valueOf(logId));
+
         deleteLog.logId = Integer.valueOf(logId);
         logService.deleteLog(deleteLog);
         return new ResponseEntity<>(logId, HttpStatus.OK);

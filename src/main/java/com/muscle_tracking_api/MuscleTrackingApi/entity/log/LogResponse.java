@@ -11,6 +11,6 @@ public class LogResponse {
     public String menuName;
     public Double trainingWeight;
     public Integer trainingCount;
-    public String trainingMemo;
     public String trainingDate;
+    public String trainingMemo;
 }
