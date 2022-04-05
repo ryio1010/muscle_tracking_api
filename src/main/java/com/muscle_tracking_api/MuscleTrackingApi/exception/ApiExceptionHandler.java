@@ -11,7 +11,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class AllExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NoDataFoundException.class})
@@ -19,6 +19,14 @@ public class AllExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage msg = new ErrorMessage(HttpStatus.NOT_FOUND.value(), ex.getMessage());
 
         return handleExceptionInternal(ex, msg, null, HttpStatus.NOT_FOUND, request);
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler({NotAuthenticationUserException.class})
+    public ResponseEntity<Object> handleNotAuthenticationUserException(NotAuthenticationUserException ex, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+
+        return handleExceptionInternal(ex, msg, null, HttpStatus.FORBIDDEN, request);
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.seasar.doma.*;
 @Getter
 @Setter
 @Table(name = "t_traininglog")
-public class Log extends BaseColumnEntity {
+public class TrainingLog extends BaseColumnEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(sequence = "t_traininglog_logid_seq")

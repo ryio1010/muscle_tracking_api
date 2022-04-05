@@ -5,6 +5,7 @@ select
     t.trainingweight,
     t.trainingcount,
     t.trainingdate,
+    t.trainingmemo,
     t.userid,
     t.regid,
     t.regdate,

@@ -4,7 +4,8 @@ select
     m.menuname,
     t.trainingweight,
     t.trainingcount,
-    t.trainingdate
+    t.trainingdate,
+    t.trainingmemo
 from
     t_traininglog t
 inner join
