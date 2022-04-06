@@ -15,7 +15,10 @@ public interface MenuDao {
     @Select
     List<Menu> selectMenusByMusclePart(String musclePart);
 
-    @Insert
+    @Select
+    Menu selectLatestMenu(String userId);
+
+    @Insert(sqlFile = true)
     int insertMenu(Menu menu);
 
     @Update
