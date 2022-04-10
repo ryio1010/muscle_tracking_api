@@ -29,6 +29,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, msg, null, HttpStatus.FORBIDDEN, request);
     }
 
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleAllUnHandledException(Exception ex, WebRequest request) {
+        ErrorMessage msg = new ErrorMessage(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+
+        return handleExceptionInternal(ex, msg, null, HttpStatus.BAD_REQUEST, request);
+    }
+
+
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {

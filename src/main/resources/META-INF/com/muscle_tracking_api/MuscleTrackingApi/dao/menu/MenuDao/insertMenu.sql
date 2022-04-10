@@ -7,17 +7,19 @@ regid,
 regdate,
 updid,
 upddate,
-version
+version,
+userid
 )
 VALUES
 (
-/* menu.menuId */'',
+default,
 /* menu.menuName */'',
 /* menu.musclePartId */'',
 /* menu.userId */'',
 CURRENT_TIMESTAMP,
-/* user.userId */'',
+/* menu.userId */'',
 CURRENT_TIMESTAMP,
-1
+1,
+/* menu.userId */''
 )
 ;

@@ -21,6 +21,10 @@ public class MenuService {
         return menuDao.selectMenusByMusclePart(musclePart);
     }
 
+    public Menu getLatestMenu(String userId) {
+        return menuDao.selectLatestMenu(userId);
+    }
+
     public int insertMenu(Menu menu) {
         return menuDao.insertMenu(menu);
     }

@@ -54,8 +54,9 @@ public class MenuRestController {
 
         // TODO : Insertデータを取得するようにしたい
         // レスポンス作成
+        Menu insertedMenu = menuService.getLatestMenu(menuRegisterForm.userId);
         MenuResponse menuResponse = new MenuResponse();
-        modelMapper.map(menuRegisterForm, menuResponse);
+        modelMapper.map(insertedMenu,menuResponse);
 
         return new ResponseEntity<>(menuResponse, HttpStatus.OK);
     }
