@@ -21,12 +21,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, msg, null, HttpStatus.NOT_FOUND, request);
     }
 
-    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({NotAuthenticationUserException.class})
     public ResponseEntity<Object> handleNotAuthenticationUserException(NotAuthenticationUserException ex, WebRequest request) {
-        ErrorMessage msg = new ErrorMessage(HttpStatus.FORBIDDEN.value(), ex.getMessage());
+        ErrorMessage msg = new ErrorMessage(HttpStatus.UNAUTHORIZED.value(), ex.getMessage());
 
-        return handleExceptionInternal(ex, msg, null, HttpStatus.FORBIDDEN, request);
+        return handleExceptionInternal(ex, msg, null, HttpStatus.UNAUTHORIZED, request);
     }
 
     @ExceptionHandler(Exception.class)
@@ -36,7 +36,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(ex, msg, null, HttpStatus.BAD_REQUEST, request);
     }
 
-
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex, @Nullable Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -44,5 +43,4 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         ex.printStackTrace();
         return super.handleExceptionInternal(ex, msg, headers, status, request);
     }
-
 }

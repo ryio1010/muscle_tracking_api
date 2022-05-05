@@ -51,6 +51,21 @@ public class BodyCompRestController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
+    @GetMapping("/latest/{userId}")
+    @ResponseBody
+    ResponseEntity<BodyCompResponse> getLatestBodyComp(@PathVariable String userId) {
+        BodyComp latestBodyComp = bodyCompService.getLatestBodyComp(userId);
+        if (latestBodyComp == null) {
+            throw new NoDataFoundException("Not Found!!");
+        }
+        BodyCompResponse response = new BodyCompResponse();
+        modelMapper.map(latestBodyComp, response);
+        response.bmi = calculateBmi(response.height, response.weight);
+        response.lbm = calculateLbm(response.weight, response.bfp);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     @ResponseBody
     ResponseEntity<BodyCompResponse> addBodyComp(@ModelAttribute BodyCompRegisterForm bodyCompRegisterForm) {
