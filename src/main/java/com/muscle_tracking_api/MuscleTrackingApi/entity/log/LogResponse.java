@@ -9,6 +9,7 @@ public class LogResponse {
     public Integer logId;
     public Integer menuId;
     public String menuName;
+    public String musclePart;
     public Double trainingWeight;
     public Integer trainingCount;
     public String trainingDate;

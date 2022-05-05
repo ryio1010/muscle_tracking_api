@@ -1,7 +1,8 @@
 select
     t.logid,
     t.menuid,
-    m.menuname,
+    m1.menuname,
+    m2.musclepartname,
     t.trainingweight,
     t.trainingcount,
     t.trainingdate,
@@ -9,9 +10,13 @@ select
 from
     t_traininglog t
 inner join
-    m_menu m
+    m_menu m1
 on
-    m.menuid = t.menuid
+    m1.menuid = t.menuid
+inner join
+    m_musclepart m2
+on
+    m1.musclepartid = m2.musclepartid
 where
     t.userid = /* userId */'ryio1010'
 ;

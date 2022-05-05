@@ -22,6 +22,9 @@ public class TrainingLog extends BaseColumnEntity {
     @Column(name = "menuname", insertable = false, updatable = false)
     public String menuName;
 
+    @Column(name = "musclepartname", insertable = false, updatable = false)
+    public String musclePart;
+
     @Column(name = "trainingweight")
     public Double trainingWeight;
 
